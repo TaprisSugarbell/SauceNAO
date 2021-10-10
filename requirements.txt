@@ -1,0 +1,12 @@
+addict
+beautifulsoup4
+imgbbpy
+imgurpython
+lxml
+omnitools
+pyshorteners
+pyrogram
+python-decouple
+requests
+TgCrypto
+wget
