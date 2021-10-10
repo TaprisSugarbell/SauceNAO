@@ -2,6 +2,7 @@ import os
 import wget
 from ..helper.NAO import nao
 from pyrogram import Client, filters
+from ..helper.random_key import rankey
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto
 
 
@@ -25,7 +26,7 @@ async def __sauce__(bot, update):
                                          animation="https://tinyurl.com/ye8kuszs",
                                          caption="Buscando...")
             dt = "../SauceBOT/downloads/" + str(update.from_user.id) + "/"
-            file = await bot.download_media(photo.file_id, dt)
+            file = await bot.download_media(photo.file_id, dt + rankey(8))
             text, btns, screenshot = nao(file)
             f = wget.download(screenshot, "".join(dt[3:] + "file.png"))
             await bot.edit_message_media(chat_id,
