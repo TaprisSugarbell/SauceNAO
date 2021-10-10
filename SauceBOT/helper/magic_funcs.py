@@ -4,6 +4,7 @@ from .slk import short
 sits = {"Danbooru": "danbooru",
         "Gelbooru": "gelbooru",
         "DeviantArt": "deviantart",
+        "FurryNetwork": "furrynetwork.com",
         "TraceMOE": "trace.moe",
         "IQDB": "iqdb.org",
         "Ascii2d": "ascii2d.net",

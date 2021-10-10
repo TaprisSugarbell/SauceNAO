@@ -1,5 +1,6 @@
 import os
 import wget
+import random
 from ..helper.NAO import nao
 from ..helper.slk import short
 from pyrogram import Client, filters
@@ -38,7 +39,7 @@ async def __sauce__(bot, update):
                                                reply_markup=InlineKeyboardMarkup(btns))
             except Exception as e:
                 print(e)
-            if similarity > 60:
+            if similarity > 60 and random.randint(0, 10) >= 7:
                 sc = screenshot(short(urlnao_clean))
             else:
                 sc = screenshot(short(google))
