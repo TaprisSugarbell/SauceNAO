@@ -1,5 +1,4 @@
 import re
-import random
 import requests
 from ..slk import short
 from addict import Dict
