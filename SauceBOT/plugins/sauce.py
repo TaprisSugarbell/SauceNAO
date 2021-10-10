@@ -31,19 +31,27 @@ async def __sauce__(bot, update):
             dt = "../SauceBOT/downloads/" + str(update.from_user.id) + "/"
             file = await bot.download_media(photo.file_id, dt + rankey(8) + ".png")
             text, btns, urlnao_clean, google, similarity = nao(file)
-            await bot.edit_message_caption(chat_id,
-                                           m["message_id"],
-                                           caption=text,
-                                           reply_markup=InlineKeyboardMarkup(btns))
-            if similarity > 45:
+            try:
+                await bot.edit_message_caption(chat_id,
+                                               m["message_id"],
+                                               caption=text,
+                                               reply_markup=InlineKeyboardMarkup(btns))
+            except Exception as e:
+                print(e)
+            if similarity > 60:
                 sc = screenshot(short(urlnao_clean))
             else:
                 sc = screenshot(short(google))
             print(sc)
             f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
-            await bot.edit_message_media(chat_id,
-                                         message_id=m["message_id"],
-                                         media=InputMediaPhoto(f))
+            try:
+                await bot.edit_message_media(chat_id,
+                                             message_id=m["message_id"],
+                                             media=InputMediaPhoto(f,
+                                                                   caption=text),
+                                             reply_markup=InlineKeyboardMarkup(btns))
+            except Exception as e:
+                print(e)
             # await bot.send_message(chat_id,
             #                        text,
             #                        reply_markup=InlineKeyboardMarkup(btns))
