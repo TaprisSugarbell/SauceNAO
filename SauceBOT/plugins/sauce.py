@@ -24,11 +24,12 @@ async def __sauce__(bot, update):
         if photo:
             m = await bot.send_animation(chat_id,
                                          animation="https://tinyurl.com/ye8kuszs",
-                                         caption="Buscando...")
+                                         caption="Buscando...",
+                                         reply_to_message_id=update.message_id)
             dt = "../SauceBOT/downloads/" + str(update.from_user.id) + "/"
-            file = await bot.download_media(photo.file_id, dt + rankey(8))
+            file = await bot.download_media(photo.file_id, dt + rankey(8) + ".png")
             text, btns, screenshot = nao(file)
-            f = wget.download(screenshot, "".join(dt[3:] + "file.png"))
+            f = wget.download(screenshot, "".join(dt[3:] + rankey(8) + ".png"))
             await bot.edit_message_media(chat_id,
                                          message_id=m["message_id"],
                                          media=InputMediaPhoto(
