@@ -22,7 +22,7 @@ if __name__ == "__main__":
         api_id=API_ID,
         api_hash=API_HASH,
         plugins=plugins,
-        workers= workers
+        workers=workers
     )
     app.run()
 
