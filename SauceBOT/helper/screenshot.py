@@ -1,6 +1,4 @@
 import json
-from email.policy import default
-
 import imgbbpy
 import requests
 from decouple import config

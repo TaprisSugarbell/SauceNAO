@@ -86,11 +86,19 @@ def nao(lnk, url=None):
     print(response)
     yandex = f"https://yandex.com/images/search?rpt=imageview&url={image_url}"
     google = f"https://www.google.com/searchbyimage?image_url={image_url}&safe=off"
+    tracemoe = f"https://trace.moe/?url={image_url}"
+    iqdb = f"https://iqdb.org/?url={image_url}"
+    tineye = f"https://www.tineye.com/search/?url={image_url}"
+    ascii2d = f"https://ascii2d.net/search/url/{image_url}"
     if response.ext_urls:
         ext_urls = response.ext_urls
         ext_urls.extend([url_safe,
                          yandex,
-                         google])
+                         google,
+                         tracemoe,
+                         iqdb,
+                         tineye,
+                         ascii2d])
         if "i.pximg.net" in response.source or "twitter.com" in response.source:
             ext_urls.append(response.source)
         unorder = [IterSites(i) for i in ext_urls]
