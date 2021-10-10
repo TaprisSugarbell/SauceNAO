@@ -42,8 +42,8 @@ async def __sauce__(bot, update):
                 try:
                     if file is not None:
                         try:
-                            os.remove("".join(dt[3:] + file.split("/")[-1]))
-                            # os.remove(file)
+                            # os.remove("".join(dt[3:] + file.split("/")[-1]))
+                            os.remove(file)
                         except Exception as e:
                             print(e)
                         try:
