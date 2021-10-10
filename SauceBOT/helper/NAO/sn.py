@@ -89,8 +89,9 @@ def nao(lnk, url=None):
     iqdb = f"https://iqdb.org/?url={image_url}"
     tineye = f"https://www.tineye.com/search/?url={image_url}"
     ascii2d = f"https://ascii2d.net/search/url/{image_url}"
-    if response.ext_urls:
-        ext_urls = response.ext_urls
+    if response.ext_urls or url_safe:
+        ext_urls = response.ext_urls or []
+        print(ext_urls)
         ext_urls.extend([url_safe,
                          yandex,
                          google,
