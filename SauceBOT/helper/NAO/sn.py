@@ -1,13 +1,12 @@
 import re
 import requests
-from ..slk import short
 from addict import Dict
 from decouple import config
 from ..PostImage import upload
 from ..random_key import rankey
 from imgurpython import ImgurClient
 from ..magic_funcs import IterSites
-from ..screenshot import screenshot, upload_img
+from ..screenshot import upload_img
 from pyrogram.types import InlineKeyboardButton
 
 # Vars
@@ -127,7 +126,7 @@ def nao(lnk, url=None):
         elif response.jp_name:
             c = "**Japanese Title:**\n"
             text += c + response.jp_name + "\n"
-    if similarity > 50:
+    if similarity > 45:
         if response.title:
             c = "**Title:**\n"
             text += c + response.title + "\n"
@@ -160,11 +159,6 @@ def nao(lnk, url=None):
             text += c + header.similarity + "\n"
         # text += f"[ ]({header.thumbnail})"
     else:
-        text += "**No hay coincidencias relevantes**\n"
+        text += "**No hay coincidencias relevantes.**\n"
     # rch = random.choice([urlnao_clean, google])
-    if similarity > 70:
-        sc = screenshot(short(urlnao_clean))
-    else:
-        sc = screenshot(short(google))
-    print(sc)
-    return text, urlink, sc
+    return text, urlink, urlnao_clean, google, similarity

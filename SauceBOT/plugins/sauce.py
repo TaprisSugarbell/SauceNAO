@@ -1,8 +1,10 @@
 import os
 import wget
 from ..helper.NAO import nao
+from ..helper.slk import short
 from pyrogram import Client, filters
 from ..helper.random_key import rankey
+from ..helper.screenshot import screenshot
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto
 
 
@@ -28,15 +30,20 @@ async def __sauce__(bot, update):
                                          reply_to_message_id=update.message_id)
             dt = "../SauceBOT/downloads/" + str(update.from_user.id) + "/"
             file = await bot.download_media(photo.file_id, dt + rankey(8) + ".png")
-            text, btns, screenshot = nao(file)
-            f = wget.download(screenshot, "".join(dt[3:] + rankey(8) + ".png"))
+            text, btns, urlnao_clean, google, similarity = nao(file)
+            await bot.edit_message_caption(chat_id,
+                                           m["message_id"],
+                                           caption=text,
+                                           reply_markup=InlineKeyboardMarkup(btns))
+            if similarity > 45:
+                sc = screenshot(short(urlnao_clean))
+            else:
+                sc = screenshot(short(google))
+            print(sc)
+            f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
             await bot.edit_message_media(chat_id,
                                          message_id=m["message_id"],
-                                         media=InputMediaPhoto(
-                                             f,
-                                             caption=text
-                                         ),
-                                         reply_markup=InlineKeyboardMarkup(btns))
+                                         media=InputMediaPhoto(f))
             # await bot.send_message(chat_id,
             #                        text,
             #                        reply_markup=InlineKeyboardMarkup(btns))
