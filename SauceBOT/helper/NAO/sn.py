@@ -103,7 +103,7 @@ def nao(lnk, url=None, user_id=None):
     try:
         url_safe = urlnao.replace(res[0], "")
     except TypeError:
-        url_safe = urlnao
+        url_safe = urlnao_clean
     urlink, urlinks = None, None
     text = ""
     try:
