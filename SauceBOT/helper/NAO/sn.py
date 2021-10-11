@@ -101,7 +101,7 @@ def nao(lnk, url=None, user_id=None):
     urlnao_clean = urlnao.replace(rd_[0], "")
     res = re.search(r"&api_key.*", urlnao_clean)
     try:
-        url_safe = urlnao.replace(res[0], "")
+        url_safe = urlnao_clean.replace(res[0], "")
     except TypeError:
         url_safe = urlnao_clean
     urlink, urlinks = None, None
@@ -199,4 +199,4 @@ def nao(lnk, url=None, user_id=None):
         else:
             pass
     # rch = random.choice([urlnao_clean, google])
-    return text, urlink, urlnao_clean, google, similarity
+    return text, urlink, url_safe, google, similarity
