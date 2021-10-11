@@ -49,3 +49,18 @@ def notNone(*args):
                     return photo
             except AttributeError:
                 pass
+
+
+def SauceLinks(image_url, append=None):
+    lenks = ["https://yandex.com/images/search?rpt=imageview&url={}",
+             "https://www.google.com/searchbyimage?image_url={}&safe=off",
+             "https://trace.moe/?url={}",
+             "https://iqdb.org/?url={}",
+             "https://www.tineye.com/search/?url={}",
+             "https://ascii2d.net/search/url/{},"]
+    if append:
+        tt = [i.format(image_url) for i in lenks]
+        tt.append(append)
+        return tt
+    else:
+        return [i.format(image_url) for i in lenks]

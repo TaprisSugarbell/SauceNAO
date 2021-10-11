@@ -5,9 +5,9 @@ from ..mongo_connect import *
 from ..PostImage import upload
 from ..random_key import rankey
 from imgurpython import ImgurClient
-from ..magic_funcs import IterSites
 from ..screenshot import upload_img
 from pyrogram.types import InlineKeyboardButton
+from ..magic_funcs import IterSites, SauceLinks
 
 # Vars
 u = Mongo(URI, "SauceBOT", "users")
@@ -91,12 +91,6 @@ sauce = SauceNAO.sauce
 def nao(lnk, url=None, user_id=None):
     snao = sauce(lnk, url=url, user_id=user_id)
     header, response, image_url, urlnao = snao
-    yandex = f"https://yandex.com/images/search?rpt=imageview&url={image_url}"
-    google = f"https://www.google.com/searchbyimage?image_url={image_url}&safe=off"
-    tracemoe = f"https://trace.moe/?url={image_url}"
-    iqdb = f"https://iqdb.org/?url={image_url}"
-    tineye = f"https://www.tineye.com/search/?url={image_url}"
-    ascii2d = f"https://ascii2d.net/search/url/{image_url}"
     rd_ = re.search(r"&output_type.*", urlnao)
     urlnao_clean = urlnao.replace(rd_[0], "")
     res = re.search(r"&api_key.*", urlnao_clean)
@@ -104,6 +98,8 @@ def nao(lnk, url=None, user_id=None):
         url_safe = urlnao_clean.replace(res[0], "")
     except TypeError:
         url_safe = urlnao_clean
+    saucelinks = SauceLinks(image_url, url_safe)
+    google = saucelinks[1]
     urlink, urlinks = None, None
     text = ""
     try:
@@ -123,13 +119,7 @@ def nao(lnk, url=None, user_id=None):
     if ext_urls or url_safe:
         ext_urls = ext_urls or []
         print(ext_urls)
-        ext_urls.extend([url_safe,
-                         yandex,
-                         google,
-                         tracemoe,
-                         iqdb,
-                         tineye,
-                         ascii2d])
+        ext_urls.extend()
         try:
             if "i.pximg.net" in response.source or "twitter.com" in response.source:
                 ext_urls.append(response.source)
