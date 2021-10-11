@@ -98,7 +98,7 @@ def nao(lnk, url=None, user_id=None):
         url_safe = urlnao_clean.replace(res[0], "")
     except TypeError:
         url_safe = urlnao_clean
-    saucelinks = SauceLinks(image_url, url_safe)
+    saucelinks = SauceLinks(image_url)
     google = saucelinks[1]
     urlink, urlinks = None, None
     text = ""
@@ -119,7 +119,7 @@ def nao(lnk, url=None, user_id=None):
     if ext_urls or url_safe:
         ext_urls = ext_urls or []
         print(ext_urls)
-        ext_urls.extend()
+        ext_urls.extend(saucelinks)
         try:
             if "i.pximg.net" in response.source or "twitter.com" in response.source:
                 ext_urls.append(response.source)

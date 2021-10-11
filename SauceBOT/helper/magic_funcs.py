@@ -1,9 +1,9 @@
 import re
+
 try:
     from .slk import short
 except ImportError:
     from slk import short
-
 
 sits = {"Danbooru": "danbooru",
         "Gelbooru": "gelbooru",
@@ -57,7 +57,8 @@ def SauceLinks(image_url, append=None):
              "https://trace.moe/?url={}",
              "https://iqdb.org/?url={}",
              "https://www.tineye.com/search/?url={}",
-             "https://ascii2d.net/search/url/{},"]
+             "https://ascii2d.net/search/url/{}",
+             "https://saucenao.com/search.php?db=999&dbmaski=3276&url={}"]
     if append:
         tt = [i.format(image_url) for i in lenks]
         tt.append(append)
