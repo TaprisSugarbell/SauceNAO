@@ -70,7 +70,7 @@ class SauceNAO:
         if reg.header.status == -1:
             inf = {"error": "**The anonymous account type does not permit API usage.**\n"
                             "Add your [API](https://saucenao.com/user.php?page=search-api)"
-                            " with the /api command {and your api}\n"
+                            " with /api {and your api}\n"
                             "In the bot's private chat!"}
             return inf, inf, image, r.url
         if reg.header.status == -2:
