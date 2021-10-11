@@ -27,23 +27,24 @@ cmnds = ["sauce", "salsa", "source", "fuente", "name", "soup"]
                    (filters.photo & filters.private))
 async def __sauce__(bot, update):
     print(update)
-    chat_id = update.chat.id
-    reply_to_message = update.reply_to_message
-    forward_from = update.forward_from
     photo = update.photo
+    chat_id = update.chat.id
+    sender_chat = update.sender_chat
+    forward_from = update.forward_from
+    reply_to_message = update.reply_to_message
     if reply_to_message and "".join(update.text.split("/")).lower() in cmnds or forward_from or photo:
         photo = notNone(reply_to_message, forward_from, update)
-        if photo:
+        if photo and not sender_chat:
             m = await bot.send_animation(chat_id,
                                          animation="https://tinyurl.com/ye8kuszs",
                                          caption="Buscando...",
                                          reply_to_message_id=update.message_id)
-            try:
-                dt = "../SauceBOT/downloads/" + str(update.from_user.id) + "/"
-            except Exception as e:
-                print(e)
-                await bot.delete_messages(chat_id,
-                                          message_ids=m["message_id"])
+            # try:
+            dt = "../SauceBOT/downloads/" + str(update.from_user.id) + "/"
+            # except Exception as e:
+            #     print(e)
+            #     await bot.delete_messages(chat_id,
+            #                               message_ids=m["message_id"])
             file = await bot.download_media(photo, dt + rankey(8) + ".png")
             text, btns, urlnao_clean, google, similarity = nao(file, user_id=update.from_user.id)
             try:
