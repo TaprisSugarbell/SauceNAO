@@ -1,5 +1,9 @@
 import re
-from .slk import short
+try:
+    from .slk import short
+except ImportError:
+    from slk import short
+
 
 sits = {"Danbooru": "danbooru",
         "Gelbooru": "gelbooru",
@@ -33,3 +37,8 @@ def IterSites(link):
                 link = "https://www.pixiv.net/artworks/" + link.split("/")[-1].split("=")[-1]
             return k, short(link)
     return "Unknown", short(link)
+
+
+def notNOne(*args):
+    return [i for i in args if i][0]
+

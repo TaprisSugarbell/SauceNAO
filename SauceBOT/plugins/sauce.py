@@ -5,6 +5,7 @@ from ..helper.NAO import nao
 from ..helper.slk import short
 from pyrogram import Client, filters
 from ..helper.random_key import rankey
+from ..helper.magic_funcs import notNOne
 from ..helper.screenshot import screenshot
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto
 
@@ -15,15 +16,19 @@ file = None
 cmnds = ["sauce", "salsa", "source"]
 
 
-@Client.on_message(filters.command(cmnds) | filters.regex(r"([Ss][Aa][Uu][Cc][Ee]|"
-                                                          r"[Ss][Aa][Ll][Ss][Aa])|"
-                                                          r"[Ss][Oo][Uu][Rr][Cc][Ee]"))
+@Client.on_message(filters.command(cmnds) |
+                   filters.regex(r"([Ss][Aa][Uu][Cc][Ee]|"
+                                 r"[Ss][Aa][Ll][Ss][Aa])|"
+                                 r"[Ss][Oo][Uu][Rr][Cc][Ee]") |
+                   (filters.photo & filters.private))
 async def __sauce__(bot, update):
     print(update)
     chat_id = update.chat.id
     reply_to_message = update.reply_to_message
-    if reply_to_message and update.text.lower() in cmnds:
-        photo = reply_to_message.photo
+    forward_from = update.forward_from
+    photo = update.photo
+    if reply_to_message and "".join(update.text.split("/")).lower() in cmnds or forward_from or photo:
+        photo = notNOne(reply_to_message, forward_from, update).photo
         if photo:
             m = await bot.send_animation(chat_id,
                                          animation="https://tinyurl.com/ye8kuszs",
@@ -53,10 +58,6 @@ async def __sauce__(bot, update):
                                              reply_markup=InlineKeyboardMarkup(btns))
             except Exception as e:
                 print(e)
-            # await bot.send_message(chat_id,
-            #                        text,
-            #                        reply_markup=InlineKeyboardMarkup(btns))
-
             try:
                 if file is not None:
                     try:
