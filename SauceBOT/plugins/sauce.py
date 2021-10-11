@@ -38,7 +38,12 @@ async def __sauce__(bot, update):
                                          animation="https://tinyurl.com/ye8kuszs",
                                          caption="Buscando...",
                                          reply_to_message_id=update.message_id)
-            dt = "../SauceBOT/downloads/" + str(update.from_user.id) + "/"
+            try:
+                dt = "../SauceBOT/downloads/" + str(update.from_user.id) + "/"
+            except Exception as e:
+                print(e)
+                await bot.delete_messages(chat_id,
+                                          message_ids=m["message_id"])
             file = await bot.download_media(photo, dt + rankey(8) + ".png")
             text, btns, urlnao_clean, google, similarity = nao(file, user_id=update.from_user.id)
             try:
