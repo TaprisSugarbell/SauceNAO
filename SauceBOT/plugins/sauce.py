@@ -5,7 +5,7 @@ from ..helper.NAO import nao
 from ..helper.slk import short
 from pyrogram import Client, filters
 from ..helper.random_key import rankey
-from ..helper.magic_funcs import notNOne
+from ..helper.magic_funcs import notNone
 from ..helper.screenshot import screenshot
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto
 
@@ -28,14 +28,14 @@ async def __sauce__(bot, update):
     forward_from = update.forward_from
     photo = update.photo
     if reply_to_message and "".join(update.text.split("/")).lower() in cmnds or forward_from or photo:
-        photo = notNOne(reply_to_message, forward_from, update).photo
+        photo = notNone(reply_to_message, forward_from, update)
         if photo:
             m = await bot.send_animation(chat_id,
                                          animation="https://tinyurl.com/ye8kuszs",
                                          caption="Buscando...",
                                          reply_to_message_id=update.message_id)
             dt = "../SauceBOT/downloads/" + str(update.from_user.id) + "/"
-            file = await bot.download_media(photo.file_id, dt + rankey(8) + ".png")
+            file = await bot.download_media(photo, dt + rankey(8) + ".png")
             text, btns, urlnao_clean, google, similarity = nao(file, user_id=update.from_user.id)
             try:
                 await bot.edit_message_caption(chat_id,

@@ -39,6 +39,13 @@ def IterSites(link):
     return "Unknown", short(link)
 
 
-def notNOne(*args):
-    return [i for i in args if i][0]
-
+def notNone(*args):
+    for i in args:
+        if i:
+            try:
+                photo = i.photo
+                if photo:
+                    file_id = photo.file_id
+                    return photo
+            except AttributeError:
+                pass

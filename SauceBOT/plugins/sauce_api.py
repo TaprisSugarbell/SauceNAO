@@ -1,3 +1,4 @@
+import re
 from ..helper.mongo_connect import *
 from pyrogram import Client, filters
 
@@ -10,7 +11,8 @@ async def __api__(bot, update):
     print(update)
     chat_id = update.chat.id
     user_id = update.from_user.id
-    SAUCE_API = update.text.split()[-1]
+    text = update.text.split()[-1]
+    SAUCE_API = re.sub(r"[^a-zA-Z0-9]", "", text)
     c = await confirm(u, {"user_id": user_id})
     if c:
         await update_(u,
