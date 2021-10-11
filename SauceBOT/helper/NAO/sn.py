@@ -91,15 +91,16 @@ sauce = SauceNAO.sauce
 def nao(lnk, url=None, user_id=None):
     snao = sauce(lnk, url=url, user_id=user_id)
     header, response, image_url, urlnao = snao
-    rd_ = re.search(r"&output_type.*", urlnao)
-    urlnao_clean = urlnao.replace(rd_[0], "")
-    res = re.search(r"&api_key.*", urlnao_clean)
-    try:
-        url_safe = urlnao_clean.replace(res[0], "")
-    except TypeError:
-        url_safe = urlnao_clean
+    # rd_ = re.search(r"&output_type.*", urlnao)
+    # urlnao_clean = urlnao.replace(rd_[0], "")
+    # res = re.search(r"&api_key.*", urlnao_clean)
+    # try:
+    #     url_safe = urlnao_clean.replace(res[0], "")
+    # except TypeError:
+    #     url_safe = urlnao_clean
     saucelinks = SauceLinks(image_url)
     google = saucelinks[1]
+    url_safe = saucelinks[6]
     urlink, urlinks = None, None
     text = ""
     try:
