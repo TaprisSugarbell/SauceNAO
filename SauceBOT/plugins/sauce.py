@@ -22,7 +22,7 @@ async def __sauce__(bot, update):
     print(update)
     chat_id = update.chat.id
     reply_to_message = update.reply_to_message
-    if reply_to_message:
+    if reply_to_message and update.text.lower() in cmnds:
         photo = reply_to_message.photo
         if photo:
             m = await bot.send_animation(chat_id,
