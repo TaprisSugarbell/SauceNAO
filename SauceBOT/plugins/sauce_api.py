@@ -14,7 +14,7 @@ async def __api__(bot, update):
     c = await confirm(u, {"user_id": user_id})
     if c:
         await update_(u,
-                      {"user_id", user_id},
+                      {"user_id": user_id},
                       {"SAUCE_API": SAUCE_API})
         await bot.send_message(chat_id,
                                "Tu API se ha actualizado con éxito.")
