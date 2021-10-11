@@ -22,7 +22,8 @@ cmnds = ["sauce", "salsa", "source", "fuente", "name", "soup"]
                                   r"[Ss][Oo][Uu][Rr][Cc][Ee]|"
                                   r"[Ff][Uu][Ee][Nn][Tt][Ee]|"
                                   r"[Nn][Aa][Mm][Ee]|"
-                                  r"[Ss][Oo][Uu][Pp]") & ~filters.bot)|
+                                  r"[Ss][Oo][Uu][Pp]")
+                    & ~filters.bot & ~filters.channel & ~filters.group)|
                    (filters.photo & filters.private))
 async def __sauce__(bot, update):
     print(update)
