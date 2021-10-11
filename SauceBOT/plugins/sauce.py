@@ -13,15 +13,16 @@ from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto
 # Vars
 # dt = None
 file = None
-cmnds = ["sauce", "salsa", "source", "fuente", "name"]
+cmnds = ["sauce", "salsa", "source", "fuente", "name", "soup"]
 
 
 @Client.on_message(filters.command(cmnds) |
-                   filters.regex(r"([Ss][Aa][Uu][Cc][Ee]|"
-                                 r"[Ss][Aa][Ll][Ss][Aa])|"
-                                 r"[Ss][Oo][Uu][Rr][Cc][Ee]|"
-                                 r"[Ff][Uu][Ee][Nn][Tt][Ee]|"
-                                 r"[Nn][Aa][Mm][Ee]") |
+                   (filters.regex(r"([Ss][Aa][Uu][Cc][Ee]|"
+                                  r"[Ss][Aa][Ll][Ss][Aa])|"
+                                  r"[Ss][Oo][Uu][Rr][Cc][Ee]|"
+                                  r"[Ff][Uu][Ee][Nn][Tt][Ee]|"
+                                  r"[Nn][Aa][Mm][Ee]|"
+                                  r"[Ss][Oo][Uu][Pp]") & ~filters.bot)|
                    (filters.photo & filters.private))
 async def __sauce__(bot, update):
     print(update)
