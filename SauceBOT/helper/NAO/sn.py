@@ -99,8 +99,11 @@ def nao(lnk, url=None, user_id=None):
     ascii2d = f"https://ascii2d.net/search/url/{image_url}"
     rd_ = re.search(r"&output_type.*", urlnao)
     urlnao_clean = urlnao.replace(rd_[0], "")
-    res = re.search(r"&api_key.*", urlnao)
-    url_safe = urlnao.replace(res[0], "")
+    res = re.search(r"&api_key.*", urlnao_clean)
+    try:
+        url_safe = urlnao.replace(res[0], "")
+    except TypeError:
+        url_safe = urlnao
     urlink, urlinks = None, None
     text = ""
     try:
