@@ -31,7 +31,7 @@ async def __sauce__(bot, update):
                                          reply_to_message_id=update.message_id)
             dt = "../SauceBOT/downloads/" + str(update.from_user.id) + "/"
             file = await bot.download_media(photo.file_id, dt + rankey(8) + ".png")
-            text, btns, urlnao_clean, google, similarity = nao(file)
+            text, btns, urlnao_clean, google, similarity = nao(file, user_id=update.from_user.id)
             try:
                 await bot.edit_message_caption(chat_id,
                                                m["message_id"],
@@ -39,7 +39,7 @@ async def __sauce__(bot, update):
                                                reply_markup=InlineKeyboardMarkup(btns))
             except Exception as e:
                 print(e)
-            if similarity > 60 and random.randint(0, 10) >= 7:
+            if similarity > 60 and random.randint(0, 30) == 30:
                 sc = screenshot(short(urlnao_clean))
             else:
                 sc = screenshot(short(google))

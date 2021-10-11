@@ -1,9 +1,11 @@
 addict
 beautifulsoup4
+dnspython
 imgbbpy
 imgurpython
 lxml
 omnitools
+pymongo
 pyshorteners
 pyrogram
 python-decouple

@@ -1,7 +1,7 @@
 import re
 import requests
 from addict import Dict
-from decouple import config
+from ..mongo_connect import *
 from ..PostImage import upload
 from ..random_key import rankey
 from imgurpython import ImgurClient
@@ -10,10 +10,10 @@ from ..screenshot import upload_img
 from pyrogram.types import InlineKeyboardButton
 
 # Vars
+u = Mongo(URI, "SauceBOT", "users")
 URL = "https://saucenao.com/search.php"
 IMGUR_ID = config("IMGUR_ID", default=None)
 IMGUR_SECRET = config("IMGUR_SECRET", default=None)
-SauceNAO_API = config("SauceNAO_API", default=None)
 order = lambda some_list, x: [some_list[i:i + x] for i in range(0, len(some_list), x)]
 
 
@@ -35,12 +35,18 @@ class SauceNAO:
         return Dict(obj)
 
     @staticmethod
-    def sauce(image, url=None):
-        files = None
+    def sauce(image, url=None, user_id=None):
+        SauceNAO_API = config("SauceNAO_API", default=None)
+        if user_id:
+            c = confirm_ofdb(u, {"user_id": user_id})
+            if c:
+                SauceNAO_API = c[0]["SAUCE_API"]
+            else:
+                SauceNAO_API = None
         if url:
             image = upload([image])
         else:
-            files = {'file': open(image, 'rb')}
+            # files = {'file': open(image, 'rb')}
             sim = upload_img(file=image, name=rankey(10), expiration=900)
             image = sim.url
             # image = toimgur(image)
@@ -54,42 +60,65 @@ class SauceNAO:
                 "url": image,
                 "api_key": SauceNAO_API,
                 "output_type": 2}
-        if url:
-            r = requests.post(URL, params=data)
+        # if url:
+        r = requests.post(URL, params=data)
+        print(r.json())
+        # else:
+        #     r = requests.post(URL, params=data, files=files)
+        reg = SauceNAO.SauceNao(r.json())
+        results = reg.results
+        if reg.header.status == -1:
+            inf = {"error": "**The anonymous account type does not permit API usage.**\n"
+                            "Add your [API](https://saucenao.com/user.php?page=search-api)"
+                            " with the /api command {and your api}\n"
+                            "In the bot's private chat!"}
+            return inf, inf, image, r.url
+        if reg.header.status == -2:
+            inf = {"error": "**Daily Search Limit Exceeded.**\n"
+                            "Yor IP has exceeded the basic account type's daily limit of 200 searches."}
+            return inf, inf, image, r.url
         else:
-            r = requests.post(URL, params=data, files=files)
-        results = SauceNAO.SauceNao(r.json()).results
-        # print(results)
-        if results:
-            first = results[0]
-            return first.header, first.data, image, r.url
+            if results:
+                first = results[0]
+                return first.header, first.data, image, r.url
+
     # return namedtuple("SauceNAObject", "header results")(*obj.values())
 
 
 sauce = SauceNAO.sauce
 
 
-def nao(lnk, url=None):
-    snao = sauce(lnk, url=url)
+def nao(lnk, url=None, user_id=None):
+    snao = sauce(lnk, url=url, user_id=user_id)
     header, response, image_url, urlnao = snao
-    similarity = int(float(header.similarity))
-    rd_ = re.search(r"&output_type.*", urlnao)
-    urlnao_clean = urlnao.replace(rd_[0], "")
-    res = re.search(r"&api_key.*", urlnao)
-    url_safe = urlnao.replace(res[0], "")
-    source = response.source
-    urlink, urlinks = None, None
-    text = ""
-    print(header)
-    print(response)
     yandex = f"https://yandex.com/images/search?rpt=imageview&url={image_url}"
     google = f"https://www.google.com/searchbyimage?image_url={image_url}&safe=off"
     tracemoe = f"https://trace.moe/?url={image_url}"
     iqdb = f"https://iqdb.org/?url={image_url}"
     tineye = f"https://www.tineye.com/search/?url={image_url}"
     ascii2d = f"https://ascii2d.net/search/url/{image_url}"
-    if response.ext_urls or url_safe:
-        ext_urls = response.ext_urls or []
+    rd_ = re.search(r"&output_type.*", urlnao)
+    urlnao_clean = urlnao.replace(rd_[0], "")
+    res = re.search(r"&api_key.*", urlnao)
+    url_safe = urlnao.replace(res[0], "")
+    urlink, urlinks = None, None
+    text = ""
+    try:
+        similarity = int(float(header.similarity))
+    except AttributeError:
+        similarity = 0
+    if header["error"]:
+        text += header["error"]
+    else:
+        source = response.source
+        print(header)
+        print(response)
+    try:
+        ext_urls = response.ext_urls
+    except AttributeError:
+        ext_urls = []
+    if ext_urls or url_safe:
+        ext_urls = ext_urls or []
         print(ext_urls)
         ext_urls.extend([url_safe,
                          yandex,
@@ -98,8 +127,11 @@ def nao(lnk, url=None):
                          iqdb,
                          tineye,
                          ascii2d])
-        if "i.pximg.net" in response.source or "twitter.com" in response.source:
-            ext_urls.append(response.source)
+        try:
+            if "i.pximg.net" in response.source or "twitter.com" in response.source:
+                ext_urls.append(response.source)
+        except AttributeError:
+            pass
         unorder = [IterSites(i) for i in ext_urls]
         orl = lambda x: x
         # print(unorder)
@@ -159,6 +191,9 @@ def nao(lnk, url=None):
             text += c + header.similarity + "\n"
         # text += f"[ ]({header.thumbnail})"
     else:
-        text += "**No hay coincidencias relevantes.**\n"
+        if similarity > 0:
+            text += "**No hay coincidencias relevantes.**\n"
+        else:
+            pass
     # rch = random.choice([urlnao_clean, google])
     return text, urlink, urlnao_clean, google, similarity
