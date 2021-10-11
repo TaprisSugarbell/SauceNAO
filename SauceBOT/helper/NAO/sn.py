@@ -191,7 +191,7 @@ def nao(lnk, url=None, user_id=None):
                 text += c + source + "\n"
         if header.similarity:
             c = "**Similarity:**\n"
-            text += c + header.similarity + "\n"
+            text += c + header.similarity + "%\n"
         # text += f"[ ]({header.thumbnail})"
     else:
         if similarity > 0:
