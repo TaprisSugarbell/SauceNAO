@@ -33,7 +33,10 @@ async def __sauce__(bot, update):
                 dt = "../SauceBOT/downloads/" + str(user_id) + "/"
             except Exception as e:
                 print(e)
-                user_id = forward_from.id
+                try:
+                    user_id = forward_from.id
+                except AttributeError:
+                    user_id = chat_id
                 dt = "../SauceBOT/downloads/" + str(user_id) + "/"
             #     await bot.delete_messages(chat_id,
             #                               message_ids=m["message_id"])
