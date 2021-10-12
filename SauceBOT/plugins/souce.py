@@ -9,26 +9,19 @@ from ..helper.magic_funcs import notNone
 from ..helper.screenshot import screenshot
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto
 
-
 # Vars
 # dt = None
 file = None
-cmnds = ["sauce", "salsa", "source", "fuente", "name", "soup"]
 
 
-@Client.on_message(filters.command(cmnds) |
-                   (filters.regex(r"([Ss][Aa][Uu][Cc][Ee]|"
-                                  r"[Ss][Aa][Ll][Ss][Aa])|"
-                                  r"[Ss][Oo][Uu][Rr][Cc][Ee]|"
-                                  r"[Ff][Uu][Ee][Nn][Tt][Ee]|"
-                                  r"[Nn][Aa][Mm][Ee]|"
-                                  r"[Ss][Oo][Uu][Pp]") & filters.reply))
+@Client.on_message(filters.photo & filters.private)
 async def __sauce__(bot, update):
     print(update)
+    photo = update.photo
     chat_id = update.chat.id
     forward_from = update.forward_from
     reply_to_message = update.reply_to_message
-    if reply_to_message and "".join(update.text.split("/")).lower() in cmnds:
+    if forward_from or photo:
         photo = notNone(reply_to_message, update)
         if photo:
             m = await bot.send_animation(chat_id,
@@ -82,3 +75,4 @@ async def __sauce__(bot, update):
                 # rmtree("".join(dt[3:]))
             except Exception as e:
                 print(e)
+
