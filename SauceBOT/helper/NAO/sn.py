@@ -47,7 +47,7 @@ class SauceNAO:
             image = upload([image])
         else:
             # files = {'file': open(image, 'rb')}
-            sim = upload_img(file=image, name=rankey(10), expiration=900)
+            sim = upload_img(file=image, name=rankey(10), expiration=1800)
             image = sim.url
             # image = toimgur(image)
             # image = upload(image)
