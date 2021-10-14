@@ -7,7 +7,7 @@ from ..helper.slk import short
 from pyrogram import Client, filters
 from ..helper.random_key import rankey
 from ..helper.magic_funcs import notNone
-from ..helper.screenshot import screenshot
+from ..helper.screenshot import screenshot, shotscreen
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto
 
 
@@ -61,20 +61,20 @@ async def __sauce__(bot, update):
                 try:
                     f = await screenshot(short(google), "".join(dt[3:] + rankey(8) + ".png"))
                 except FileNotFoundError:
-                    os.system("wget https://github.com/1Danish-00/HtmlWebShot/raw/main/script.sh | sh")
-                    os.system("bash script.sh")
-                    sleep(15)
-                    f = await screenshot(short(google), "".join(dt[3:] + rankey(8) + ".png"))
+                    # os.system("wget https://github.com/1Danish-00/HtmlWebShot/raw/main/script.sh | sh")
+                    # os.system("bash script.sh")
+                    # sleep(15)
+                    sc = shotscreen(short(google))
+                    f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
             else:
                 try:
                     f = await screenshot(short(google), "".join(dt[3:] + rankey(8) + ".png"))
                 except FileNotFoundError:
-                    os.system("wget https://github.com/1Danish-00/HtmlWebShot/raw/main/script.sh | sh")
-                    os.system("bash script.sh")
-                    sleep(15)
-                    f = await screenshot(short(google), "".join(dt[3:] + rankey(8) + ".png"))
-            print(f)
-            # f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
+                    # os.system("wget https://github.com/1Danish-00/HtmlWebShot/raw/main/script.sh | sh")
+                    # os.system("bash script.sh")
+                    # sleep(15)
+                    sc = shotscreen(short(google))
+                    f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
             try:
                 await bot.edit_message_media(chat_id,
                                              message_id=m["message_id"],
