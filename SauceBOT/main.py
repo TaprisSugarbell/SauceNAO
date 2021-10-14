@@ -13,11 +13,11 @@ BOT_TOKEN = config("BOT_TOKEN", default=None)
 
 if __name__ == "__main__":
     print("Starting Bot...")
-    here = listdir()
+    here = listdir("./SauceBOT/")
     print(here)
     if "script.sh" in here:
-        system("bash script.sh")
-        remove("script.sh")
+        system("bash ./SauceBOT/script.sh")
+        remove("./SauceBOT/script.sh")
     plugins = dict(root="SauceBOT/plugins")
     app = pyrogram.Client(
         "SauceBOT",
