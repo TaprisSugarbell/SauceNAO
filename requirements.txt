@@ -1,6 +1,7 @@
 addict
 beautifulsoup4
 dnspython
+htmlwebshot
 imgbbpy
 imgurpython
 lxml

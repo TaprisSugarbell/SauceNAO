@@ -57,11 +57,11 @@ async def __sauce__(bot, update):
             except Exception as e:
                 print(e)
             if similarity > 60 and random.randint(0, 30) == 30:
-                sc = screenshot(short(urlnao_clean))
+                f = await screenshot(short(urlnao_clean), "".join(dt[3:] + rankey(8) + ".png"))
             else:
-                sc = screenshot(short(google))
-            print(sc)
-            f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
+                f = await screenshot(short(google), "".join(dt[3:] + rankey(8) + ".png"))
+            print(f)
+            # f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
             try:
                 await bot.edit_message_media(chat_id,
                                              message_id=m["message_id"],

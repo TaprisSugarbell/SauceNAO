@@ -8,7 +8,6 @@ except ImportError:
 sits = {"Danbooru": "danbooru",
         "Gelbooru": "gelbooru",
         "DeviantArt": "deviantart",
-        "FurryNetwork": "furrynetwork.com",
         "TraceMOE": "trace.moe",
         "IQDB": "iqdb.org",
         "Ascii2d": "ascii2d.net",
@@ -18,9 +17,12 @@ sits = {"Danbooru": "danbooru",
         "SauceNAO": "saucenao.com",
         "Yandex": "yandex.com",
         "Google": "www.google.com",
+        "ArtStation": "www.artstation.com",
         "MangaDex": "mangadex",
         "Baka-Updates": "www.mangaupdates.com",
-        "MyAnimeList": "myanimelist.net"}
+        "MyAnimeList": "myanimelist.net",
+        "Furaffinity": "www.furaffinity.net",
+        "FurryNetwork": "furrynetwork.com"}
 
 
 def IterSites(link):
