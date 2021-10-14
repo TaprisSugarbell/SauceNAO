@@ -61,14 +61,14 @@ async def __sauce__(bot, update):
                 try:
                     f = await screenshot(short(google), "".join(dt[3:] + rankey(8) + ".png"))
                 except FileNotFoundError:
-                    os.system("apt-get install wkhtmltopdf -y")
+                    os.system("sudo apt-get install wkhtmltopdf -y")
                     sleep(15)
                     f = await screenshot(short(google), "".join(dt[3:] + rankey(8) + ".png"))
             else:
                 try:
                     f = await screenshot(short(google), "".join(dt[3:] + rankey(8) + ".png"))
                 except FileNotFoundError:
-                    os.system("apt-get install wkhtmltopdf -y")
+                    os.system("sudo apt-get install wkhtmltopdf -y")
                     sleep(15)
                     f = await screenshot(short(google), "".join(dt[3:] + rankey(8) + ".png"))
             print(f)
