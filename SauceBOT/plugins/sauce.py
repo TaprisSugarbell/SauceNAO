@@ -62,6 +62,7 @@ async def __sauce__(bot, update):
                     f = await screenshot(short(google), "".join(dt[3:] + rankey(8) + ".png"))
                 except FileNotFoundError:
                     os.system("wget https://github.com/1Danish-00/HtmlWebShot/raw/main/script.sh | sh")
+                    os.system("bash script.sh")
                     sleep(15)
                     f = await screenshot(short(google), "".join(dt[3:] + rankey(8) + ".png"))
             else:
@@ -69,6 +70,7 @@ async def __sauce__(bot, update):
                     f = await screenshot(short(google), "".join(dt[3:] + rankey(8) + ".png"))
                 except FileNotFoundError:
                     os.system("wget https://github.com/1Danish-00/HtmlWebShot/raw/main/script.sh | sh")
+                    os.system("bash script.sh")
                     sleep(15)
                     f = await screenshot(short(google), "".join(dt[3:] + rankey(8) + ".png"))
             print(f)
