@@ -18,6 +18,9 @@ async def __config__(bot, update):
         [
             InlineKeyboardButton("Sitios", "sites"),
             InlineKeyboardButton("Media", "upload_config")
+        ],
+        [
+            InlineKeyboardButton("Tiempo de Links", "time")
         ]
     ]
     try:

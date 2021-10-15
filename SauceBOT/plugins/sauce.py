@@ -84,7 +84,8 @@ async def __sauce__(bot, update):
                         f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
                 else:
                     try:
-                        f = await screenshot(short(google), height=1620)
+                        sc = shotscreen(short(google), height=1620)
+                        f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
                     except Exception as e:
                         print(e)
                         sc = shotscreen(short(google), height=1620)
