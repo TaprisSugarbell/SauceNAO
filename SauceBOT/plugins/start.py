@@ -2,7 +2,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-@Client.on_message(filters.command(["start"]))
+@Client.on_message(filters.command(["start"]) & filters.private)
 async def __start__(bot, update):
     print(update)
     chat_id = update.chat.id
@@ -17,7 +17,7 @@ async def __start__(bot, update):
                            "Para más información puedes ver el comando /help o @SauceNAO")
 
 
-@Client.on_message(filters.command(["help"]))
+@Client.on_message(filters.command(["help"]) & filters.private)
 async def __help__(bot, update):
     print(update)
     chat_id = update.chat.id
