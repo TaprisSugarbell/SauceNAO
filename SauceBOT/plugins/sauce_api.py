@@ -26,7 +26,7 @@ async def __api__(bot, update):
             await bot.send_message(chat_id,
                                    "Tu API se ha actualizado con éxito.")
     else:
-        if len(text) < 5:
+        if len(text) < 30:
             await bot.send_message(chat_id,
                                    "Tienes que ingresar tu API."
                                    "Ingresa [SauceNAO](https://saucenao.com/user.php?page=search-api) "

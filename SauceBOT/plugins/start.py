@@ -1,4 +1,5 @@
 from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 @Client.on_message(filters.command(["start"]))
@@ -21,8 +22,14 @@ async def __help__(bot, update):
     print(update)
     chat_id = update.chat.id
     await bot.send_message(chat_id,
-                           "Info"
-                           "[ ](https://telegra.ph/Info-10-15-2)")
+                           "[Info](https://telegra.ph/Info-10-15-2)",
+                           reply_markup=InlineKeyboardMarkup(
+                               [
+                                   [
+                                       InlineKeyboardButton("Config", "config")
+                                   ]
+                               ]
+                           ))
 
 
 
