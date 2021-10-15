@@ -100,6 +100,12 @@ async def __sauce__(bot, update):
                                                  media=InputMediaPhoto(f,
                                                                        caption=text),
                                                  reply_markup=InlineKeyboardMarkup(btns))
+                    else:
+                        await upload_command(chat_id,
+                                             message_id=m["message_id"],
+                                             media=InputMediaPhoto(f,
+                                                                   caption=text),
+                                             reply_markup=InlineKeyboardMarkup(btns))
             except Exception as e:
                 print(e)
             try:
