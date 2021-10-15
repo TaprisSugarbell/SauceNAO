@@ -99,6 +99,7 @@ def nao(lnk, url=None, user_id=None):
     # except TypeError:
     #     url_safe = urlnao_clean
     saucelinks = SauceLinks(image_url)
+    yandex = saucelinks[0]
     google = saucelinks[1]
     url_safe = saucelinks[6]
     urlink, urlinks = None, None
@@ -190,4 +191,4 @@ def nao(lnk, url=None, user_id=None):
         else:
             pass
     # rch = random.choice([urlnao_clean, google])
-    return text, urlink, url_safe, google, similarity
+    return text, urlink, (url_safe, google, yandex), similarity

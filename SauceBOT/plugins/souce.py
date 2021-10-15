@@ -41,7 +41,7 @@ async def __sauce__(bot, update):
             #     await bot.delete_messages(chat_id,
             #                               message_ids=m["message_id"])
             file = await bot.download_media(photo, dt + rankey(8) + ".png")
-            text, btns, urlnao_clean, google, similarity = nao(file, user_id=user_id)
+            text, btns, (urlnao_clean, google, yandex), similarity = nao(file, user_id=user_id)
             try:
                 await bot.edit_message_caption(chat_id,
                                                m["message_id"],
@@ -49,25 +49,31 @@ async def __sauce__(bot, update):
                                                reply_markup=InlineKeyboardMarkup(btns))
             except Exception as e:
                 print(e)
-            if similarity > 60 and random.randint(0, 30) == 30:
+            dig = random.randint(0, 30)
+            if similarity > 60 and dig == 30:
                 try:
-                    f = await screenshot(short(google), "".join(dt[3:] + rankey(8) + ".png"))
-                except FileNotFoundError:
-                    # os.system("wget https://github.com/1Danish-00/HtmlWebShot/raw/main/script.sh | sh")
-                    # os.system("bash script.sh")
-                    # sleep(15)
-                    sc = shotscreen(short(google))
+                    f = await screenshot(short(urlnao_clean))
+                except Exception as e:
+                    print(e)
+                    sc = shotscreen(short(urlnao_clean))
                     f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
             else:
-                try:
-                    f = await screenshot(short(google), "".join(dt[3:] + rankey(8) + ".png"))
-                except FileNotFoundError:
-                    print("4")
-                    # os.system("wget https://github.com/1Danish-00/HtmlWebShot/raw/main/script.sh | sh")
-                    # os.system("bash script.sh")
-                    # sleep(15)
-                    sc = shotscreen(short(google))
-                    f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
+                if dig > 20:
+                    try:
+                        f = await screenshot(short(yandex))
+                    except Exception as e:
+                        print(e)
+                        sc = shotscreen(short(yandex))
+                        f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
+                else:
+                    try:
+                        sc = shotscreen(short(google))
+                        f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
+                    except Exception as e:
+                        print(e)
+                        sc = shotscreen(short(google))
+                        f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
+
             print(f)
             try:
                 await bot.edit_message_media(chat_id,
@@ -84,8 +90,11 @@ async def __sauce__(bot, update):
                         os.remove(file)
                     except Exception as e:
                         print(e)
+                    # if "https" not in f:
                     try:
                         os.remove(f)
+                    except FileNotFoundError:
+                        pass
                     except Exception as e:
                         print(e)
                 # print(os.getcwd())
