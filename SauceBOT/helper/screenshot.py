@@ -20,13 +20,13 @@ def upload_img(url=None, file=None, name="image", expiration=None):
     return image
 
 
-def shotscreen(link=None, mode=0):
+def shotscreen(link=None, mode=0, width=1920, height=1080):
     RN = "https://render-tron.appspot.com/screenshot/"
     SCREENSHOT_API = config("SCREENSHOT_API", default=None)
     if mode == 0:
         try:
             params = urlencode(dict(access_key=SCREENSHOT_API,
-                                    format="jpeg",
+                                    format="png",
                                     response_type="json",
                                     no_cookie_banners=True,
                                     no_tracking=True,
@@ -37,14 +37,14 @@ def shotscreen(link=None, mode=0):
             # status200(r)
             sc = r.json()["url"]
         except json.decoder.JSONDecodeError:
-            params = {"width": 1920,
-                      "height": 1080}
+            params = {"width": width,
+                      "height": height}
             r = requests.get(RN + link, params=params)
             sc = r.url
         return sc
     elif mode == 1:
-        params = {"width": 1920,
-                  "height": 1080}
+        params = {"width": width,
+                  "height": height}
         r = requests.get(RN + link, params=params)
         sc = r.url
         return sc
@@ -52,8 +52,8 @@ def shotscreen(link=None, mode=0):
         raise Exception("This mode no exist", mode, "only mode 0 and 1")
 
 
-async def screenshot(link):
-    return "http://api.s-shot.ru/1920x1024/PNG/1920/Z100/?{}".format(quote_plus(link))
+async def screenshot(link, width=1920, height=1080):
+    return f"http://api.s-shot.ru/{width}x{height}/PNG/{width}/Z100/?{quote_plus(link)}"
 
 # async def screenshot(link, output=None):
 #     cn = htmlwebshot.WebShot(quality=88,

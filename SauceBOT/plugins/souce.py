@@ -56,26 +56,26 @@ async def __sauce__(bot, update):
             dig = random.randint(0, 30)
             if similarity > 60 and dig == 30:
                 try:
-                    f = await screenshot(short(urlnao_clean))
+                    f = await screenshot(short(urlnao_clean), height=1620)
                 except Exception as e:
                     print(e)
-                    sc = shotscreen(short(urlnao_clean))
+                    sc = shotscreen(short(urlnao_clean), height=1620)
                     f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
             else:
                 if dig > 20:
                     try:
-                        f = await screenshot(short(yandex))
+                        f = await screenshot(short(yandex), height=1620)
                     except Exception as e:
                         print(e)
-                        sc = shotscreen(short(yandex))
+                        sc = shotscreen(short(yandex), height=1620)
                         f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
                 else:
                     try:
-                        sc = shotscreen(short(google))
+                        sc = shotscreen(short(google), height=1620)
                         f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
                     except Exception as e:
                         print(e)
-                        sc = shotscreen(short(google))
+                        sc = shotscreen(short(google), height=1620)
                         f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
 
             print(f)
