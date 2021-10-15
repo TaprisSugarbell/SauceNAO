@@ -5,7 +5,10 @@ import pyshorteners
 
 def short(link):
     s = pyshorteners.Shortener()
-    return s.tinyurl.short(link)
+    try:
+        return s.tinyurl.short(link)
+    except requests.exceptions.ReadTimeout:
+        return s.tinyurl.short(link)
 
 
 def cacalinks(link):

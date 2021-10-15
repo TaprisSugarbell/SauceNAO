@@ -4,18 +4,22 @@ import random
 from ..helper.NAO import nao
 from ..helper.slk import short
 from pyrogram import Client, filters
+from ..helper.mongo_connect import *
 from ..helper.random_key import rankey
 from ..helper.magic_funcs import notNone
 from ..helper.screenshot import screenshot,shotscreen
-from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto
+from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, InputMediaDocument
 
 # Vars
 # dt = None
+u = Mongo(URI, "SauceBOT", "users")
 file = None
 
 
 @Client.on_message(filters.photo & filters.private)
 async def __sauce__(bot, update):
+    async def upload_command(id_of_chat, method=bot.edit_message_media, **kwargs):
+        await method(chat_id=id_of_chat, **kwargs)
     print(update)
     photo = update.photo
     chat_id = update.chat.id
@@ -76,11 +80,26 @@ async def __sauce__(bot, update):
 
             print(f)
             try:
-                await bot.edit_message_media(chat_id,
-                                             message_id=m["message_id"],
-                                             media=InputMediaPhoto(f,
-                                                                   caption=text),
-                                             reply_markup=InlineKeyboardMarkup(btns))
+                if user_id:
+                    c = await confirm(u, {"user_id": user_id})
+                    if c:
+                        try:
+                            upload_config = c[0]["upload_config"]
+                        except KeyError:
+                            await update_(u, {"user_id": user_id}, {"upload_config": "document"})
+                            upload_config = "document"
+                        if upload_config == "document":
+                            await upload_command(chat_id,
+                                                 message_id=m["message_id"],
+                                                 media=InputMediaDocument(f,
+                                                                          caption=text),
+                                                 reply_markup=InlineKeyboardMarkup(btns))
+                        else:
+                            await upload_command(chat_id,
+                                                 message_id=m["message_id"],
+                                                 media=InputMediaPhoto(f,
+                                                                       caption=text),
+                                                 reply_markup=InlineKeyboardMarkup(btns))
             except Exception as e:
                 print(e)
             try:
