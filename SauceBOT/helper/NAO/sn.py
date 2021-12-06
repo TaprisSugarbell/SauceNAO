@@ -47,9 +47,9 @@ class SauceNAO:
             image = upload([image])
         else:
             # files = {'file': open(image, 'rb')}
-            sim = upload_f(image)
+            image = upload_f(image)
             # sim = upload_img(file=image, name=rankey(6), expiration=900)
-            image = sim.url
+            # image = sim.url
             # image = toimgur(image)
             # image = upload(image)
         if isinstance(image, str):
