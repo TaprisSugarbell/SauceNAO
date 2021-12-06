@@ -4,7 +4,7 @@ import time
 import math
 import requests
 import datetime
-import lxml.html
+# import lxml.html
 import omnitools
 from bs4 import BeautifulSoup
 from multiprocessing.pool import ThreadPool

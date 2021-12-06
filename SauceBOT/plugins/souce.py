@@ -7,7 +7,7 @@ from pyrogram import Client, filters
 from ..helper.mongo_connect import *
 from ..helper.random_key import rankey
 from ..helper.magic_funcs import notNone
-from ..helper.screenshot import screenshot,shotscreen
+from ..helper.screenshot import screenshot, shotscreen
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, InputMediaDocument
 
 # Vars

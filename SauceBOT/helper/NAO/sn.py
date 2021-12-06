@@ -2,10 +2,10 @@ import re
 import requests
 from addict import Dict
 from ..mongo_connect import *
-from ..PostImage import upload
 from ..random_key import rankey
 from imgurpython import ImgurClient
 from ..screenshot import upload_img
+from ..PostImage import upload, upload_f
 from pyrogram.types import InlineKeyboardButton
 from ..magic_funcs import IterSites, SauceLinks
 
@@ -47,7 +47,8 @@ class SauceNAO:
             image = upload([image])
         else:
             # files = {'file': open(image, 'rb')}
-            sim = upload_img(file=image, name=rankey(6), expiration=900)
+            sim = upload_f(image)
+            # sim = upload_img(file=image, name=rankey(6), expiration=900)
             image = sim.url
             # image = toimgur(image)
             # image = upload(image)

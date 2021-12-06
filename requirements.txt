@@ -1,5 +1,6 @@
 addict
 beautifulsoup4
+cloudinary
 dnspython
 imgbbpy
 imgurpython
