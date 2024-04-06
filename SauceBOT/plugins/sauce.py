@@ -30,7 +30,7 @@ cmnds = ["sauce", "salsa", "source", "fuente", "name", "soup"]
                                   r"souce|"
                                   r"fuente"
                                   r"name|"
-                                  r"soup", flags=re.I) & filters.reply))
+                                  r"soup", flags=re.IGNORECASE) & filters.reply))
 async def __sauce__(bot, update):
     output_2 = None
 
