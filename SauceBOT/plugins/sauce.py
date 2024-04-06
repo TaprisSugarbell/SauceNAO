@@ -80,18 +80,12 @@ async def __sauce__(bot, update):
                         f = await screenshot(short(yandex), height=1620)
                     except Exception as e:
                         print(e)
-                        sc = shotscreen(short(yandex), height=1620)
-                        f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
                 else:
                     try:
                         sc = shotscreen(short(google), height=1620)
                         f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
                     except Exception as e:
                         print(e)
-                        sc = shotscreen(short(google), height=1620)
-                        f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
-
-            print(f)
             try:
                 if user_id:
                     c = await confirm(u, {"user_id": user_id})

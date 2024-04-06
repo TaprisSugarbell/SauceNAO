@@ -5,7 +5,7 @@ from ..mongo_connect import *
 from ..random_key import rankey
 from imgurpython import ImgurClient
 from ..screenshot import upload_img
-from ..PostImage import upload, upload_f
+from ..PostImage import upload
 from pyrogram.types import InlineKeyboardButton
 from ..magic_funcs import IterSites, SauceLinks
 
@@ -24,9 +24,9 @@ order = lambda some_list, x: [some_list[i:i + x] for i in range(0, len(some_list
 #     return btns
 
 
-def toimgur(img):
-    client = ImgurClient(client_id=IMGUR_ID, client_secret=IMGUR_SECRET)
-    return client.upload_from_path(img)["link"]
+# def toimgur(img):
+#     client = ImgurClient(client_id=IMGUR_ID, client_secret=IMGUR_SECRET)
+#     return client.upload_from_path(img)["link"]
 
 
 class SauceNAO:
@@ -43,11 +43,8 @@ class SauceNAO:
                 SauceNAO_API = c[0]["SAUCE_API"]
             else:
                 SauceNAO_API = None
-        if url:
-            image = upload([image])
-        else:
-            # files = {'file': open(image, 'rb')}
-            image = upload_f(image)
+        # if url:
+        image = upload(image)
             # sim = upload_img(file=image, name=rankey(6), expiration=900)
             # image = sim.url
             # image = toimgur(image)
@@ -60,7 +57,9 @@ class SauceNAO:
                 "dbmaski": 3276,
                 "url": image,
                 "api_key": SauceNAO_API,
-                "output_type": 2}
+                "output_type": 2,
+                "testmode": 1
+                }
         # if url:
         r = requests.post(URL, params=data)
         print(r.json())
@@ -92,13 +91,6 @@ sauce = SauceNAO.sauce
 def nao(lnk, url=None, user_id=None):
     snao = sauce(lnk, url=url, user_id=user_id)
     header, response, image_url, urlnao = snao
-    # rd_ = re.search(r"&output_type.*", urlnao)
-    # urlnao_clean = urlnao.replace(rd_[0], "")
-    # res = re.search(r"&api_key.*", urlnao_clean)
-    # try:
-    #     url_safe = urlnao_clean.replace(res[0], "")
-    # except TypeError:
-    #     url_safe = urlnao_clean
     saucelinks = SauceLinks(image_url)
     yandex = saucelinks[0]
     google = saucelinks[1]
@@ -129,7 +121,7 @@ def nao(lnk, url=None, user_id=None):
         except AttributeError:
             pass
         unorder = [IterSites(i) for i in ext_urls]
-        orl = lambda x: x
+        orl = lambda x: x[0]
         # print(unorder)
         urlinks = sorted(unorder, key=orl)
         # print(urlinks)

@@ -4,6 +4,7 @@ try:
     from .slk import short
 except ImportError:
     from slk import short
+from urllib.parse import urlparse
 
 sits = {"Danbooru": "danbooru",
         "Gelbooru": "gelbooru",
@@ -21,11 +22,14 @@ sits = {"Danbooru": "danbooru",
         "MangaDex": "mangadex",
         "Baka-Updates": "www.mangaupdates.com",
         "MyAnimeList": "myanimelist.net",
+        "Yande.re": "yande.re",
+        "E621": "e621.net",
         "Furaffinity": "www.furaffinity.net",
         "FurryNetwork": "furrynetwork.com"}
 
 
 def IterSites(link):
+    mt = None
     for k, v in sits.items():
         if isinstance(v, list):
             for i in v:
@@ -55,7 +59,7 @@ def notNone(*args):
 
 def SauceLinks(image_url, append=None):
     lenks = ["https://yandex.com/images/search?rpt=imageview&url={}",
-             "https://www.google.com/searchbyimage?image_url={}&safe=off",
+             "https://www.google.com/searchbyimage?image_url={}&client=app",
              "https://trace.moe/?url={}",
              "https://iqdb.org/?url={}",
              "https://www.tineye.com/search/?url={}",

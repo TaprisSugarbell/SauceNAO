@@ -13,7 +13,7 @@ async def __config__(bot, update):
     callcack_query_id = update.id
     chat_id = update.message.chat.id
     user_id = update.from_user.id
-    message_id = update.message.message_id
+    message_id = update.message.id
     btns = [
         [
             InlineKeyboardButton("Sitios", "sites"),
@@ -43,7 +43,7 @@ async def __upconfig__(bot, update):
     user_id = update.from_user.id
     chat_id = update.message.chat.id
     text = update.data.split("_")[-1]
-    message_id = update.message.message_id
+    message_id = update.message.id
     c = await confirm(u, {"user_id": user_id})
     if c:
         try:
@@ -83,7 +83,7 @@ async def __upconfig__(bot, update):
         ]
     ]
     try:
-        await bot.edit_message_reply_markup(chat_id,
+        await bot.edit_message_reply_markup(chat_id or user_id,
                                             message_id,
                                             reply_markup=InlineKeyboardMarkup(btns))
     except pyrogram.errors.exceptions.bad_request_400.MessageNotModified:

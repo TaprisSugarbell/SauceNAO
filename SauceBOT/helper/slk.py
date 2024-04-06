@@ -8,7 +8,7 @@ def short(link):
     try:
         return s.tinyurl.short(link)
     except requests.exceptions.ReadTimeout:
-        return s.tinyurl.short(link)
+        return cacalinks(link)
 
 
 def cacalinks(link):

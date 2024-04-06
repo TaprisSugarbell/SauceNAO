@@ -1,8 +1,10 @@
 import json
+from urllib.parse import urlencode
+import random
+import htmlwebshot
 import imgbbpy
 import requests
 from decouple import config
-from urllib.parse import urlencode, quote_plus
 
 IMGBB_API = config("IMGBB_API", default=None)
 
@@ -52,12 +54,14 @@ def shotscreen(link=None, mode=0, width=1920, height=1080):
         raise Exception("This mode no exist", mode, "only mode 0 and 1")
 
 
-async def screenshot(link, width=1920, height=1080):
-    return f"http://api.s-shot.ru/{width}x{height}/PNG/{width}/Z100/?{quote_plus(link)}"
+# async def screenshot(link, width=1920, height=1080):
+#     # return f"http://api.s-shot.ru/{width}x{height}/PNG/{width}/Z100/?{quote_plus(link)}"
+#     return f"http://api.s-shot.ru/{width}x{height}/PNG/{width}/Z100/?{quote_plus(link)}"
 
-# async def screenshot(link, output=None):
-#     cn = htmlwebshot.WebShot(quality=88,
-#                              flags=["--enable-javascript", "--no-stop-slow-scripts"],
-#                              delay=10,
-#                              size=(1080, 1920))
-#     return await cn.create_pic_async(url=link, output=output)
+async def screenshot(link, output=None):
+    cn = htmlwebshot.WebShot(quality=70,
+                             flags=["--enable-javascript", "--no-stop-slow-scripts"],
+                             delay=random.randint(3, 4),
+                             size=(1080, 1920))
+                             # size=(1620, 1920))
+    return await cn.create_pic_async(url=link, output=output)
