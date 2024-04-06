@@ -1,15 +1,14 @@
-import os
-import wget
 import random
-from time import sleep
-from ..helper.NAO import nao
-from ..helper.slk import short
+import re
 from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, InputMediaDocument
+
+from ..helper.NAO import nao
+from ..helper.magic_funcs import notNone
 from ..helper.mongo_connect import *
 from ..helper.random_key import rankey
-from ..helper.magic_funcs import notNone
-from ..helper.screenshot import screenshot, shotscreen
-from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, InputMediaDocument
+from ..helper.screenshot import screenshot
+from ..helper.slk import short
 
 # Vars
 # dt = None
@@ -18,50 +17,54 @@ file = None
 cmnds = ["sauce", "salsa", "source", "fuente", "name", "soup"]
 
 
+# @Client.on_message(filters.command(cmnds) |
+#                    (filters.regex(r"([Ss][Aa][Uu][Cc][Ee]|"
+#                                   r"[Ss][Aa][Ll][Ss][Aa])|"
+#                                   r"[Ss][Oo][Uu][Rr][Cc][Ee]|"
+#                                   r"[Ff][Uu][Ee][Nn][Tt][Ee]|"
+#                                   r"[Nn][Aa][Mm][Ee]|"
+#                                   r"[Ss][Oo][Uu][Pp]") & filters.reply))
 @Client.on_message(filters.command(cmnds) |
-                   (filters.regex(r"([Ss][Aa][Uu][Cc][Ee]|"
-                                  r"[Ss][Aa][Ll][Ss][Aa])|"
-                                  r"[Ss][Oo][Uu][Rr][Cc][Ee]|"
-                                  r"[Ff][Uu][Ee][Nn][Tt][Ee]|"
-                                  r"[Nn][Aa][Mm][Ee]|"
-                                  r"[Ss][Oo][Uu][Pp]") & filters.reply))
+                   (filters.regex(r"sauce|"
+                                  r"salsa)|"
+                                  r"souce|"
+                                  r"fuente"
+                                  r"name|"
+                                  r"soup", flags=re.I) & filters.reply))
 async def __sauce__(bot, update):
+    output_2 = None
+
     async def upload_command(id_of_chat, method=bot.edit_message_media, **kwargs):
         await method(chat_id=id_of_chat, **kwargs)
 
     print(update)
+    photo = update.photo
     chat_id = update.chat.id
-    try:
-        user_id = update.from_user.id
-    except Exception as e:
-        print(e)
-        user_id = None
     forward_from = update.forward_from
     reply_to_message = update.reply_to_message
-    if reply_to_message and "".join(update.text.split("/")).lower() in cmnds:
+    if forward_from or photo:
         photo = notNone(reply_to_message, update)
         if photo:
             m = await bot.send_animation(chat_id,
                                          animation="https://tinyurl.com/ye8kuszs",
                                          caption="Buscando...",
-                                         reply_to_message_id=update.message_id)
+                                         reply_to_message_id=update.id)
             try:
                 user_id = update.from_user.id
-                dt = "../SauceBOT/downloads/" + str(user_id) + "/"
+                dt = "./SauceBOT/downloads/" + str(user_id) + "/"
             except Exception as e:
                 print(e)
                 try:
                     user_id = forward_from.id
                 except AttributeError:
                     user_id = chat_id
-                dt = "../SauceBOT/downloads/" + str(user_id) + "/"
-            #     await bot.delete_messages(chat_id,
-            #                               message_ids=m["message_id"])
+                dt = "./SauceBOT/downloads/" + str(user_id) + "/"
             file = await bot.download_media(photo, dt + rankey(8) + ".png")
             text, btns, (urlnao_clean, google, yandex), similarity = nao(file, user_id=user_id)
+            output = "".join(dt[2:] + rankey(8) + ".png")
             try:
                 await bot.edit_message_caption(chat_id,
-                                               m["message_id"],
+                                               m.id,
                                                caption=text,
                                                reply_markup=InlineKeyboardMarkup(btns))
             except Exception as e:
@@ -69,21 +72,21 @@ async def __sauce__(bot, update):
             dig = random.randint(0, 30)
             if similarity > 60 and dig == 30:
                 try:
-                    f = await screenshot(short(urlnao_clean), height=1620)
+                    await screenshot(
+                        short(urlnao_clean), output)
                 except Exception as e:
                     print(e)
-                    sc = shotscreen(short(urlnao_clean), height=1620)
-                    f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
             else:
                 if dig > 20:
                     try:
-                        f = await screenshot(short(yandex), height=1620)
+                        await screenshot(
+                            short(yandex), output)
                     except Exception as e:
                         print(e)
                 else:
                     try:
-                        sc = shotscreen(short(google), height=1620)
-                        f = wget.download(sc, "".join(dt[3:] + rankey(8) + ".png"))
+                        await screenshot(
+                            short(google), output)
                     except Exception as e:
                         print(e)
             try:
@@ -97,20 +100,20 @@ async def __sauce__(bot, update):
                             upload_config = "document"
                         if upload_config == "document":
                             await upload_command(chat_id,
-                                                 message_id=m["message_id"],
-                                                 media=InputMediaDocument(f,
+                                                 message_id=m.id,
+                                                 media=InputMediaDocument(output,
                                                                           caption=text),
                                                  reply_markup=InlineKeyboardMarkup(btns))
                         else:
                             await upload_command(chat_id,
-                                                 message_id=m["message_id"],
-                                                 media=InputMediaPhoto(f,
+                                                 message_id=m.id,
+                                                 media=InputMediaPhoto(output,
                                                                        caption=text),
                                                  reply_markup=InlineKeyboardMarkup(btns))
                     else:
                         await upload_command(chat_id,
-                                             message_id=m["message_id"],
-                                             media=InputMediaPhoto(f,
+                                             message_id=m.id,
+                                             media=InputMediaPhoto(output,
                                                                    caption=text),
                                              reply_markup=InlineKeyboardMarkup(btns))
             except Exception as e:
@@ -124,12 +127,10 @@ async def __sauce__(bot, update):
                         print(e)
                     # if "https" not in f:
                     try:
-                        os.remove(f)
+                        os.remove(output)
                     except FileNotFoundError:
                         pass
                     except Exception as e:
                         print(e)
-                # print(os.getcwd())
-                # rmtree("".join(dt[3:]))
             except Exception as e:
                 print(e)

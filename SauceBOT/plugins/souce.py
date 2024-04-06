@@ -19,6 +19,7 @@ file = None
 @Client.on_message(filters.photo & filters.private)
 async def __sauce__(bot, update):
     output_2 = None
+
     async def upload_command(id_of_chat, method=bot.edit_message_media, **kwargs):
         await method(chat_id=id_of_chat, **kwargs)
 
@@ -57,24 +58,23 @@ async def __sauce__(bot, update):
             dig = random.randint(0, 30)
             if similarity > 60 and dig == 30:
                 try:
-                    output_2 = await screenshot(
+                    await screenshot(
                         short(urlnao_clean), output)
                 except Exception as e:
                     print(e)
             else:
                 if dig > 20:
                     try:
-                        output_2 = await screenshot(
+                        await screenshot(
                             short(yandex), output)
                     except Exception as e:
                         print(e)
                 else:
                     try:
-                        output_2 = await screenshot(
+                        await screenshot(
                             short(google), output)
                     except Exception as e:
                         print(e)
-            print(output_2)
             try:
                 if user_id:
                     c = await confirm(u, {"user_id": user_id})
@@ -113,7 +113,7 @@ async def __sauce__(bot, update):
                         print(e)
                     # if "https" not in f:
                     try:
-                        os.remove(output_2)
+                        os.remove(output)
                     except FileNotFoundError:
                         pass
                     except Exception as e:
