@@ -14,11 +14,11 @@ from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, InputMediaDocu
 # dt = None
 u = Mongo(URI, "SauceBOT", "users")
 file = None
-output_2 = None
 
 
 @Client.on_message(filters.photo & filters.private)
 async def __sauce__(bot, update):
+    output_2 = None
     async def upload_command(id_of_chat, method=bot.edit_message_media, **kwargs):
         await method(chat_id=id_of_chat, **kwargs)
 
