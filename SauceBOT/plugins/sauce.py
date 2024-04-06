@@ -26,7 +26,7 @@ cmnds = ["sauce", "salsa", "source", "fuente", "name", "soup"]
 #                                   r"[Ss][Oo][Uu][Pp]") & filters.reply))
 @Client.on_message(filters.command(cmnds) |
                    (filters.regex(r"sauce|"
-                                  r"salsa)|"
+                                  r"salsa|"
                                   r"souce|"
                                   r"fuente|"
                                   r"name|"
