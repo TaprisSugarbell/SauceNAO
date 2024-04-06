@@ -113,7 +113,7 @@ async def __sauce__(bot, update):
                         print(e)
                     # if "https" not in f:
                     try:
-                        os.remove(output)
+                        os.remove(output_2)
                     except FileNotFoundError:
                         pass
                     except Exception as e:
