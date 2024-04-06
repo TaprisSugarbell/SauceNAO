@@ -73,7 +73,7 @@ async def __sauce__(bot, update):
                             short(google), output)
                     except Exception as e:
                         print(e)
-                print(output_2)
+            print(output_2)
             try:
                 if user_id:
                     c = await confirm(u, {"user_id": user_id})
