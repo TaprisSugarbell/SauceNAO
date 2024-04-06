@@ -14,6 +14,7 @@ from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, InputMediaDocu
 # dt = None
 u = Mongo(URI, "SauceBOT", "users")
 file = None
+output_2 = None
 
 
 @Client.on_message(filters.photo & filters.private)
