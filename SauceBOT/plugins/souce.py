@@ -46,7 +46,7 @@ async def __sauce__(bot, update):
                 dt = "./SauceBOT/downloads/" + str(user_id) + "/"
             file = await bot.download_media(photo, dt + rankey(8) + ".png")
             text, btns, (urlnao_clean, google, yandex), similarity = nao(file, user_id=user_id)
-            output = "".join(dt[3:] + rankey(8) + ".png")
+            output = "".join(dt[2:] + rankey(8) + ".png")
             try:
                 await bot.edit_message_caption(chat_id,
                                                m.id,
@@ -61,7 +61,6 @@ async def __sauce__(bot, update):
                         short(urlnao_clean), output)
                 except Exception as e:
                     print(e)
-                    print("valiendo madre")
             else:
                 if dig > 20:
                     try:
@@ -69,14 +68,12 @@ async def __sauce__(bot, update):
                             short(yandex), output)
                     except Exception as e:
                         print(e)
-                        print("valiendo madre")
                 else:
                     try:
                         output_2 = await screenshot(
                             short(google), output)
                     except Exception as e:
                         print(e)
-                        print("valiendo madre")
             print(output_2)
             try:
                 if user_id:
