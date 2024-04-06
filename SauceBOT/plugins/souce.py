@@ -35,14 +35,14 @@ async def __sauce__(bot, update):
                                          reply_to_message_id=update.id)
             try:
                 user_id = update.from_user.id
-                dt = "../SauceBOT/downloads/" + str(user_id) + "/"
+                dt = "./SauceBOT/downloads/" + str(user_id) + "/"
             except Exception as e:
                 print(e)
                 try:
                     user_id = forward_from.id
                 except AttributeError:
                     user_id = chat_id
-                dt = "../SauceBOT/downloads/" + str(user_id) + "/"
+                dt = "./SauceBOT/downloads/" + str(user_id) + "/"
             file = await bot.download_media(photo, dt + rankey(8) + ".png")
             text, btns, (urlnao_clean, google, yandex), similarity = nao(file, user_id=user_id)
             output = "".join(dt[3:] + rankey(8) + ".png")
@@ -56,20 +56,20 @@ async def __sauce__(bot, update):
             dig = random.randint(0, 30)
             if similarity > 60 and dig == 30:
                 try:
-                    output = await screenshot(
+                    await screenshot(
                         short(urlnao_clean), output)
                 except Exception as e:
                     print(e)
             else:
                 if dig > 20:
                     try:
-                        output = await screenshot(
+                        await screenshot(
                             short(yandex), output)
                     except Exception as e:
                         print(e)
                 else:
                     try:
-                        output = await screenshot(
+                        await screenshot(
                             short(google), output)
                     except Exception as e:
                         print(e)
