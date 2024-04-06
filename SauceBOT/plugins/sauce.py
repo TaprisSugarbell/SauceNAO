@@ -17,32 +17,19 @@ file = None
 cmnds = ["sauce", "salsa", "source", "fuente", "name", "soup"]
 
 
-# @Client.on_message(filters.command(cmnds) |
-#                    (filters.regex(r"([Ss][Aa][Uu][Cc][Ee]|"
-#                                   r"[Ss][Aa][Ll][Ss][Aa])|"
-#                                   r"[Ss][Oo][Uu][Rr][Cc][Ee]|"
-#                                   r"[Ff][Uu][Ee][Nn][Tt][Ee]|"
-#                                   r"[Nn][Aa][Mm][Ee]|"
-#                                   r"[Ss][Oo][Uu][Pp]") & filters.reply))
 @Client.on_message(filters.command(cmnds) |
-                   (filters.regex(r"sauce|"
-                                  r"salsa|"
-                                  r"souce|"
-                                  r"fuente|"
-                                  r"name|"
-                                  r"soup", flags=re.IGNORECASE) & filters.reply))
+                   (filters.regex(r"|".join(cmnds), flags=re.IGNORECASE) & filters.reply))
 async def __sauce__(bot, update):
     output_2 = None
 
     async def upload_command(id_of_chat, method=bot.edit_message_media, **kwargs):
         await method(chat_id=id_of_chat, **kwargs)
 
-    print(update)
     photo = update.photo
     chat_id = update.chat.id
     forward_from = update.forward_from
     reply_to_message = update.reply_to_message
-    if forward_from or photo:
+    if reply_to_message or photo:
         photo = notNone(reply_to_message, update)
         if photo:
             m = await bot.send_animation(chat_id,
