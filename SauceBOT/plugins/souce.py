@@ -56,23 +56,24 @@ async def __sauce__(bot, update):
             dig = random.randint(0, 30)
             if similarity > 60 and dig == 30:
                 try:
-                    await screenshot(
+                    output_2 = await screenshot(
                         short(urlnao_clean), output)
                 except Exception as e:
                     print(e)
             else:
                 if dig > 20:
                     try:
-                        await screenshot(
+                        output_2 = await screenshot(
                             short(yandex), output)
                     except Exception as e:
                         print(e)
                 else:
                     try:
-                        await screenshot(
+                        output_2 = await screenshot(
                             short(google), output)
                     except Exception as e:
                         print(e)
+                print(output_2)
             try:
                 if user_id:
                     c = await confirm(u, {"user_id": user_id})
