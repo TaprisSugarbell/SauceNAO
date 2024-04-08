@@ -32,9 +32,10 @@ async def __sauce__(bot, update):
         photo = notNone(reply_to_message, update)
         if photo:
             m = await bot.send_animation(chat_id,
-                                         animation="https://tinyurl.com/ye8kuszs",
+                                         animation="CgACAgQAAxkDAAIWUGYTT9thp46doF86Al5uAAFKXZFeQQACfgIAAlbgHVM_iArKaOsDFB4E",
                                          caption="Buscando...",
                                          reply_to_message_id=update.id)
+            print(m)
             try:
                 user_id = update.from_user.id
                 dt = "./SauceBOT/downloads/" + str(user_id) + "/"
